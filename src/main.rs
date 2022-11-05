@@ -2,10 +2,10 @@ mod life;
 mod steps;
 mod world;
 
-use std::io::{Read, stdin};
+pub use life::Life;
+use std::io::{stdin, Read};
 use std::sync::{Arc, RwLock};
 use std::thread;
-pub use life::Life;
 use std::time::Duration;
 pub use steps::step_conway;
 pub use world::World;
@@ -28,7 +28,9 @@ fn main() {
     let keep_running = Arc::new(RwLock::new(true));
     let check_stop_thread = {
         let keep_running_shared = keep_running.clone();
-        thread::spawn(move || {check_stop(keep_running_shared);})
+        thread::spawn(move || {
+            check_stop(keep_running_shared);
+        })
     };
 
     print!("{:?}", life.world);
@@ -41,7 +43,7 @@ fn main() {
         print!("{:?}", life.world);
         // instructions
         println!("Enter: stop");
-        if ! *keep_running.read().unwrap() {
+        if !*keep_running.read().unwrap() {
             break;
         }
     }
@@ -49,8 +51,7 @@ fn main() {
     check_stop_thread.join().unwrap();
 }
 
-fn check_stop(keep_running: Arc<RwLock<bool>>)
-{
+fn check_stop(keep_running: Arc<RwLock<bool>>) {
     // block until the user enters something
     stdin().bytes().next();
     *keep_running.write().unwrap() = false;

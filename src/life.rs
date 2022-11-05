@@ -1,4 +1,4 @@
-use crate::{World};
+use crate::World;
 
 pub struct Life<F>
 where

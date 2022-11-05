@@ -75,7 +75,11 @@ impl World {
 impl std::fmt::Debug for World {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         //f.write_str("hello you!");
-        let horizontal_bar = "+".to_string() + &std::iter::repeat("-").take(self.get_cols()).collect::<String>() + "--+\n";
+        let horizontal_bar = "+".to_string()
+            + &std::iter::repeat("-")
+                .take(self.get_cols())
+                .collect::<String>()
+            + "--+\n";
         f.write_str(&horizontal_bar).unwrap();
         for row in 0..self.get_rows() {
             f.write_str("| ").unwrap();
