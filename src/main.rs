@@ -33,22 +33,28 @@ fn main() {
         })
     };
 
-    print!("{:?}", life.world);
+    clear_screen();
+    println!("\n"); // black
+    std::thread::sleep(Duration::from_millis(1000));
+
     loop {
-        std::thread::sleep(Duration::from_millis(200));
-        life.step();
-        // clear screen
-        print!("{}[2J", 27 as char);
-        // show game state
+        clear_screen();
         print!("{:?}", life.world);
-        // instructions
         println!("Enter: stop");
+        std::thread::sleep(Duration::from_millis(200));
+
+        life.step();
+
         if !*keep_running.read().unwrap() {
             break;
         }
     }
 
     check_stop_thread.join().unwrap();
+}
+
+fn clear_screen() {
+    print!("{}[2J", 27 as char);
 }
 
 fn check_stop(keep_running: Arc<RwLock<bool>>) {
