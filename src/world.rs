@@ -1,5 +1,3 @@
-use num_traits::PrimInt;
-
 pub type CellIndex = usize;
 
 pub struct World {
@@ -77,7 +75,10 @@ impl World {
 impl std::fmt::Debug for World {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         //f.write_str("hello you!");
+        let horizontal_bar = "+".to_string() + &std::iter::repeat("-").take(self.get_cols()).collect::<String>() + "--+\n";
+        f.write_str(&horizontal_bar).unwrap();
         for row in 0..self.get_rows() {
+            f.write_str("| ").unwrap();
             for col in 0..self.get_cols() {
                 if self.get_cell(row, col) {
                     f.write_str("#").unwrap()
@@ -85,8 +86,10 @@ impl std::fmt::Debug for World {
                     f.write_str(" ").unwrap();
                 }
             }
+            f.write_str(" |").unwrap();
             f.write_str("\n").unwrap();
         }
+        f.write_str(&horizontal_bar).unwrap();
         f.write_str("\n")
     }
 }

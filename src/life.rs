@@ -1,4 +1,4 @@
-use crate::{step_conway, World};
+use crate::{World};
 
 pub struct Life<F>
 where
@@ -37,6 +37,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::step_conway;
     #[test]
     fn test_construction() {
         let life = Life::new_desert(step_conway, 10, 8);
