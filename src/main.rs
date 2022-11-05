@@ -4,11 +4,10 @@ mod life;
 mod steps;
 mod world;
 
-use std::time::Duration;
 pub use life::Life;
+use std::time::Duration;
 pub use steps::step_conway;
 pub use world::World;
-
 
 fn main() {
     let mut life = Life::new_desert(step_conway, 40, 40);

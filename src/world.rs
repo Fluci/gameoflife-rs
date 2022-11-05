@@ -2,20 +2,18 @@ use num_traits::PrimInt;
 
 pub type CellIndex = usize;
 
-pub struct World
-{
+pub struct World {
     rows: usize,
     cols: usize,
-    matrix: Vec<bool>
+    matrix: Vec<bool>,
 }
 
 impl World {
-    pub fn new_desert(rows: usize, cols: usize) -> Self
-    {
+    pub fn new_desert(rows: usize, cols: usize) -> Self {
         Self {
             rows,
             cols,
-            matrix: vec![false; rows * cols]
+            matrix: vec![false; rows * cols],
         }
     }
 
@@ -23,8 +21,7 @@ impl World {
         self.rows
     }
 
-    pub fn get_cols(&self) -> usize
-    {
+    pub fn get_cols(&self) -> usize {
         self.cols
     }
 
@@ -42,16 +39,13 @@ impl World {
         let row = row_u as i64;
         let col = col_u as i64;
         return self.get_padded_cell(row - 1, col - 1) as usize
-             + self.get_padded_cell(row - 1, col) as usize
-             + self.get_padded_cell(row - 1, col + 1) as usize
-
-             + self.get_padded_cell(row, col - 1) as usize
-             + self.get_padded_cell(row, col + 1) as usize
-
-             + self.get_padded_cell(row + 1, col - 1) as usize
-             + self.get_padded_cell(row + 1, col) as usize
-             + self.get_padded_cell(row + 1, col + 1) as usize
-        ;
+            + self.get_padded_cell(row - 1, col) as usize
+            + self.get_padded_cell(row - 1, col + 1) as usize
+            + self.get_padded_cell(row, col - 1) as usize
+            + self.get_padded_cell(row, col + 1) as usize
+            + self.get_padded_cell(row + 1, col - 1) as usize
+            + self.get_padded_cell(row + 1, col) as usize
+            + self.get_padded_cell(row + 1, col + 1) as usize;
     }
 }
 
@@ -63,16 +57,18 @@ impl World {
         return self.get_cell(row as usize, col as usize);
     }
 
-    fn check_bounds(&self, row: CellIndex, col: CellIndex)
-    {
+    fn check_bounds(&self, row: CellIndex, col: CellIndex) {
         if row as usize >= self.rows || col as usize >= self.cols {
-            panic!("Out of bounds: ({:}, {:}) for matrix of size {:}x{:}", row, col, self.rows, self.cols);
+            panic!(
+                "Out of bounds: ({:}, {:}) for matrix of size {:}x{:}",
+                row, col, self.rows, self.cols
+            );
         }
     }
 }
 
 /// Debug, testing methods
-impl World{
+impl World {
     pub fn all_dead(&self) -> bool {
         !self.matrix.iter().any(|c| *c == true)
     }
@@ -85,10 +81,8 @@ impl std::fmt::Debug for World {
             for col in 0..self.get_cols() {
                 if self.get_cell(row, col) {
                     f.write_str("#").unwrap()
-                }
-                else
-                {
-                    f.write_str( " ").unwrap();
+                } else {
+                    f.write_str(" ").unwrap();
                 }
             }
             f.write_str("\n").unwrap();
@@ -98,12 +92,11 @@ impl std::fmt::Debug for World {
 }
 
 #[cfg(test)]
-mod tests{
+mod tests {
     use super::*;
 
     #[test]
-    fn test_construction()
-    {
+    fn test_construction() {
         let world = World::new_desert(10, 8);
         assert_eq!(world.get_rows(), 10);
         assert_eq!(world.get_cols(), 8);
@@ -115,36 +108,30 @@ mod tests{
 
     #[test]
     #[should_panic]
-    fn test_out_of_bounds_1()
-    {
+    fn test_out_of_bounds_1() {
         let world = World::new_desert(10, 8);
         world.get_cell(10, 0);
     }
 
     #[test]
     #[should_panic]
-    fn test_out_of_bounds_2()
-    {
+    fn test_out_of_bounds_2() {
         let world = World::new_desert(10, 8);
         world.get_cell(0, 8);
     }
 
     #[test]
     #[should_panic]
-    fn test_out_of_bounds_3()
-    {
+    fn test_out_of_bounds_3() {
         let world = World::new_desert(10, 8);
         world.get_cell(10, 8);
     }
 
     #[test]
-    fn test_setter()
-    {
+    fn test_setter() {
         let mut world = World::new_desert(17, 19);
         assert_eq!(world.get_cell(15, 13), false);
         world.set_cell(15, 13, true);
         assert_eq!(world.get_cell(15, 13), true);
     }
-
 }
-

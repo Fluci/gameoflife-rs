@@ -1,18 +1,20 @@
 use crate::{step_conway, World};
 
 pub struct Life<F>
-where F: Fn(bool, usize) -> bool
+where
+    F: Fn(bool, usize) -> bool,
 {
     pub kernel: F,
     pub world: World,
-    next_world: World
+    next_world: World,
 }
 
 impl<F> Life<F>
-where F: Fn(bool, usize) -> bool
+where
+    F: Fn(bool, usize) -> bool,
 {
     pub fn new_desert(kernel: F, height: usize, width: usize) -> Self {
-        Life{
+        Life {
             kernel,
             world: World::new_desert(height, width),
             next_world: World::new_desert(height, width),
@@ -57,4 +59,3 @@ mod tests {
         assert!(life.world.get_cell(5, 6));
     }
 }
-

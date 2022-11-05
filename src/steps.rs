@@ -1,9 +1,5 @@
-
-
-pub fn step_conway(is_alive: bool, number_of_alife_neighbors: usize) -> bool
-{
-    if is_alive 
-    {
+pub fn step_conway(is_alive: bool, number_of_alife_neighbors: usize) -> bool {
+    if is_alive {
         return 2 == number_of_alife_neighbors || number_of_alife_neighbors == 3;
     }
     return number_of_alife_neighbors == 3;
@@ -38,4 +34,3 @@ mod tests {
         assert_eq!(step_conway(false, 8), false);
     }
 }
-
